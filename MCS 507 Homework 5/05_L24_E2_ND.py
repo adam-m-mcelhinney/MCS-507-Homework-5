@@ -6,7 +6,7 @@ the forward Euler method. For which value(s) of the step size do
 you get the figure eight?
 
 
-Ask Prof
+Ask Prof, show him forward euler and example from wikipedia
 
 """
 
@@ -94,16 +94,23 @@ def f(z,t):
 ##t=main()
 
 
-def forward_euler(y0,t_0,h,n_1):
+def forward_euler(y_n,t,f,h):
    """
    Does forward euler
    y_n+1=y_n+h*f(t_n,y_n)
    http://en.wikipedia.org/wiki/Euler_method
    """
-   y=y0
-   y_previous
-   for i in range(n_1):
-      y=y_previous+h
+   y_n1=y_n+h*f(y_n,t)
+   #print y_n,h,f(t,y_n)
+   return y_n1, t
+
+
+f=lambda y, t: y
+y_n=1;t=0;h=1
+for i in range(4):
+	y_n,t=forward_euler(y_n,t,f,h)
+	print y_n,t
+	t=t+1
       
 
 
@@ -127,7 +134,9 @@ initz = [ip1[0], iv1[0], ip1[1], iv1[1], \
 # solving the IVP
 T = 2*sp.pi/3; n = 1000
 tspan = sp.linspace(0,T,n+1)
-z = odeint(f,initz,tspan)
+#z = odeint(f,initz,tspan)
+f=lambda y, t: y
+z = forward_euler(f,initz,tspan)
 # extracing the trajectories
 x1 = z[:,0]; y1 = z[:,2]
 x2 = z[:,4]; y2 = z[:,6]
